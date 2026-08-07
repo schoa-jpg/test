@@ -1,0 +1,3 @@
+[submodule "recipe-bot"]
+	path = recipe-bot
+	url = https://github.com/schoa-jpg/recipe-bot.git
