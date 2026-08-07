@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pyc
+recipes.db
+exports/
+.venv/
