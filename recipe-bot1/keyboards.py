@@ -5,6 +5,17 @@ MONTHS = [
     "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь",
 ]
 
+CURRENCIES = [
+    ("USD", "$ Доллар США"),
+    ("EUR", "€ Евро"),
+    ("RUB", "₽ Рубль"),
+    ("GBP", "£ Фунт"),
+    ("JPY", "¥ Йена"),
+    ("CNY", "¥ Юань"),
+    ("KZT", "₸ Тенге"),
+    ("UAH", "₴ Гривна"),
+]
+
 
 def main_menu() -> InlineKeyboardMarkup:
     buttons = [
@@ -14,8 +25,19 @@ def main_menu() -> InlineKeyboardMarkup:
         [InlineKeyboardButton("4. Месяц рождения", callback_data="menu:month")],
         [InlineKeyboardButton("5. Увлечения или работа", callback_data="edit:hobbies")],
         [InlineKeyboardButton("6. Выгрузить в Excel", callback_data="export")],
+        [InlineKeyboardButton("💱 Конвертер валют", callback_data="calc:start")],
+        [InlineKeyboardButton("📈 Курсы валют", callback_data="rates:show")],
     ]
     return InlineKeyboardMarkup(buttons)
+
+
+def currency_menu(callback_prefix: str) -> InlineKeyboardMarkup:
+    rows = [
+        [InlineKeyboardButton(name, callback_data=f"{callback_prefix}:{code}")]
+        for code, name in CURRENCIES
+    ]
+    rows.append([InlineKeyboardButton("◀ В меню", callback_data="menu:main")])
+    return InlineKeyboardMarkup(rows)
 
 
 def month_menu() -> InlineKeyboardMarkup:

@@ -46,9 +46,30 @@ TELEGRAM_BOT_TOKEN=ваш_токен_от_BotFather
 recipe-bot1/
 ├── bot.py            # основной код бота, меню, обработчики
 ├── db.py             # работа с SQLite3 (таблица users)
-├── keyboards.py      # инлайн-клавиатуры (меню, месяцы)
+├── keyboards.py      # инлайн-клавиатуры (меню, месяцы, валюты)
+├── currency.py       # курсы валют (open.er-api.com) и конвертация
 ├── excel_export.py   # экспорт анкет в Excel (openpyxl)
 ├── requirements.txt  # зависимости
 ├── .env              # токен бота (не коммитится)
-└── database.db       # база данных SQLite3 (создаётся автоматически)
+├── database.db       # база данных SQLite3 (создаётся автоматически)
+└── render.yaml       # конфиг для деплоя на Render.com
 ```
+
+## Запуск на Render.com (работает 24/7 без вашего ПК)
+
+Бот запускается через **webhook**, поэтому Render не «засыпает».
+
+1. Запушьте код в GitHub.
+2. Зайдите на [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint** → укажите репозиторий.
+3. Render найдёт `render.yaml`, спросит значения переменных:
+   - `TELEGRAM_BOT_TOKEN` — токен от BotFather;
+   - `WEBHOOK_URL` — пока оставьте пустым (URL сервиса ещё не известен).
+4. Дождитесь деплоя. Скопируйте адрес сервиса вида `https://recipe-bot-xxxx.onrender.com`.
+5. В настройках сервиса **Environment** задайте `WEBHOOK_URL = https://recipe-bot-xxxx.onrender.com` и нажмите **Save** (перезапустит бота).
+
+Альтернатива: вручную создать **New → Web Service**, выбрать папку `recipe-bot1`:
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `python bot.py`
+- Env vars: `TELEGRAM_BOT_TOKEN`, затем `WEBHOOK_URL` (URL сервиса).
+
+> ⚠️ Важно: на Render файловая система непостоянная — `database.db` сбрасывается при каждом деплое. Если нужна постоянная база анкет, потребуется внешняя БД (например, Supabase). Курсы валют работают без БД.
