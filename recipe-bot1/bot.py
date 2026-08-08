@@ -308,7 +308,8 @@ def main():
     loop.run_until_complete(app.shutdown())
     loop.close()
 
-    webhook_url = os.getenv("WEBHOOK_URL", "").strip()
+    render_url = os.getenv("RENDER_EXTERNAL_URL", "").strip()
+    webhook_url = os.getenv("WEBHOOK_URL", "").strip() or render_url
     port = int(os.getenv("PORT", "8080"))
 
     if webhook_url:

@@ -57,19 +57,16 @@ recipe-bot1/
 
 ## Запуск на Render.com (работает 24/7 без вашего ПК)
 
-Бот запускается через **webhook**, поэтому Render не «засыпает».
+Бот запускается через **webhook** (Render не «засыпает»). Адрес вебхука берётся из `RENDER_EXTERNAL_URL` автоматически — вручную настраивать ничего не нужно.
 
 1. Запушьте код в GitHub.
 2. Зайдите на [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint** → укажите репозиторий.
-3. Render найдёт `render.yaml`, спросит значения переменных:
-   - `TELEGRAM_BOT_TOKEN` — токен от BotFather;
-   - `WEBHOOK_URL` — пока оставьте пустым (URL сервиса ещё не известен).
-4. Дождитесь деплоя. Скопируйте адрес сервиса вида `https://recipe-bot-xxxx.onrender.com`.
-5. В настройках сервиса **Environment** задайте `WEBHOOK_URL = https://recipe-bot-xxxx.onrender.com` и нажмите **Save** (перезапустит бота).
+3. Render найдёт `render.yaml` и спросит `TELEGRAM_BOT_TOKEN` — токен от BotFather.
+4. Дождитесь деплоя и напишите боту `/start`.
 
 Альтернатива: вручную создать **New → Web Service**, выбрать папку `recipe-bot1`:
 - Build Command: `pip install -r requirements.txt`
 - Start Command: `python bot.py`
-- Env vars: `TELEGRAM_BOT_TOKEN`, затем `WEBHOOK_URL` (URL сервиса).
+- Env var: `TELEGRAM_BOT_TOKEN`.
 
 > ⚠️ Важно: на Render файловая система непостоянная — `database.db` сбрасывается при каждом деплое. Если нужна постоянная база анкет, потребуется внешняя БД (например, Supabase). Курсы валют работают без БД.
